@@ -1,2 +1,0 @@
-# Healthify
-AI Diet Planner
