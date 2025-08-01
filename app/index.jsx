@@ -5,7 +5,10 @@ import Colors from '../shared/Colors';
 
 export default function Index() {
   const router = useRouter();
+<<<<<<< HEAD
  
+=======
+>>>>>>> 395688a826d18577a85459a2f90fe9593bc13b95
 
   return (
     <View style={{ flex: 1 }}>

@@ -16,7 +16,11 @@
     "@react-navigation/bottom-tabs": "^7.3.10",
     "@react-navigation/elements": "^2.3.8",
     "@react-navigation/native": "^7.1.6",
+<<<<<<< HEAD
     "convex": "^1.25.4",
+=======
+    "convex": "^1.25.0",
+>>>>>>> 395688a826d18577a85459a2f90fe9593bc13b95
     "expo": "~53.0.12",
     "expo-blur": "~14.1.5",
     "expo-constants": "~17.1.6",
