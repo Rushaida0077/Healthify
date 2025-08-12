@@ -28,7 +28,7 @@ export default function Preferance() {
      
           const data = {
   uid: user?._id,
-  height: Number(height), // ✅ now matches v.float64()
+  height: Number(height), 
   weight: Number(weight),
   gender: gender,
   goal: goal
