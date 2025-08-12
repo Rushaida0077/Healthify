@@ -3,29 +3,23 @@ import { Text, TouchableOpacity } from 'react-native';
 import Colors from '../../shared/Colors'; // path thik ache kina check koro
 
 // Props theke title and onPress nite hobe
-export default function Button({ title, onPress }) {
+export default function Button({ title, onPress, icon }) {
   return (
     <TouchableOpacity
+      onPress={onPress}
       style={{
-        paddingVertical: 12,
-        paddingHorizontal: 30,
+        padding: 15,
         backgroundColor: Colors.PRIMARY,
-        borderRadius: 10,
-        alignSelf: 'center',
-        marginTop: 20,
-      }}
-      onPress={onPress} // ekhane bahirer onPress use hocche
-    >
+        width: '100%',
+        borderRadius: 10
+      }}>
       <Text
         style={{
-          fontSize: 18,
+          fontSize: 20,
           color: Colors.WHITE,
-          textAlign: 'center',
-          fontWeight: 'bold',
-        }}
-      >
-        {title}  {/* dynamic title */}
-      </Text>
+          textAlign: 'center'
+          
+        }}>{icon} {title}</Text>
     </TouchableOpacity>
   );
 }
