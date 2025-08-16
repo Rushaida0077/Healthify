@@ -8,8 +8,8 @@ import Button from './../../components/shared/Button';
 import Input from './../../components/shared/Input';
 import { UserContext } from './../../context/UserContext';
 import { api } from './../../convex/_generated/api';
-import Colors from './../../shared/Colors';
 import { CalculateCaloriesAI } from './../../services/AiModel';
+import Colors from './../../shared/Colors';
 import Prompt from './../../shared/Prompt';
 export default function Preferance() {
     const [weight, setWeight] = useState()
@@ -21,13 +21,17 @@ export default function Preferance() {
     const UpdateUserPref=useMutation(api.User.UpdateUserPref)
     console.log(user)
     const OnContinue = async() => {
+        if (!user?.email) {
+    console.log("Error", "User not loaded yet. Please wait.");
+    return;
+  }
         if (!weight || !height || !gender){
             Alert.alert(' Fill All Fields', 'Enter all fields to continue');
             return;
         }
      
           const data = {
-  uid: user?._id,
+  email: user.email,
   height: Number(height), // ✅ now matches v.float64()
   weight: Number(weight),
   gender: gender,
