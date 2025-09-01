@@ -1,11 +1,13 @@
 import { ArrowRight02Icon } from '@hugeicons/core-free-icons';
 import { HugeiconsIcon } from '@hugeicons/react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Colors from "../shared/Colors";
 
 export default function Progress() {
+  const router = useRouter();
   return (
     <LinearGradient 
         colors={[Colors.BLUE, Colors.PRIMARY]}
@@ -27,7 +29,9 @@ export default function Progress() {
         marginTop: 7,
       }}>Let Our AI generate personalized recipes just for you!</Text>
     
-     <TouchableOpacity style={{
+     <TouchableOpacity  
+      onPress={() => router.push('/generate-ai-recipe')}
+     style={{
         padding: 12,
         backgroundColor: Colors.WHITE,
         marginTop: 10,
