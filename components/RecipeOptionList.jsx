@@ -42,10 +42,10 @@ const saveRecipeResult = await CreateRecipes({
   userId: user?._id
 });
     console.log("Recipe saved:", saveRecipeResult);
-    router.push({
-      pathname: './recipe-detail',
-      recipeId: saveRecipeResult?._id 
-    })
+   router.push({
+  pathname: '/recipe-detail',
+ recipeId: saveRecipeResult
+});
 
   } catch (e) {
     console.error("AI Recipe generation failed:", e.message || e);

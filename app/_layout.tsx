@@ -1,5 +1,5 @@
 import { ConvexProvider, ConvexReactClient } from "convex/react";
-import { Stack } from "expo-router";
+import { Slot } from "expo-router";
 import React, { useState } from "react";
 import { UserContext } from "../context/UserContext";
 
@@ -13,13 +13,7 @@ export default function RootLayout() {
   return (
     <ConvexProvider client={convex}>
       <UserContext.Provider value={{ user, setUser }}>
-        <Stack
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="index" />
-        </Stack>
+        <Slot />
       </UserContext.Provider>
     </ConvexProvider>
   );
