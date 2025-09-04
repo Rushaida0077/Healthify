@@ -45,23 +45,28 @@ export const GetUser=query({
 })
 export const UpdateUserPref = mutation({
   args: {
-    uid: v.string(),
+    email: v.string(),
     height: v.number(),
     weight: v.number(),
     goal: v.string(),
     gender: v.string(),
-   proteins: v.optional(v.number()),
-    calories: v.optional(v.number()) 
+    proteins: v.optional(v.number()),
+    calories: v.optional(v.number())
   },
   handler: async (ctx, args) => {
-    const result = await ctx.db.patch(args.uid, {
+    const user = await ctx.db.query("users")
+      .filter(q => q.eq(q.field("email"), args.email))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
+    return await ctx.db.patch(user._id, {
       height: args.height,
       weight: args.weight,
       goal: args.goal,
       gender: args.gender,
       proteins: args.proteins,
-      calories: args.calories 
+      calories: args.calories
     });
-    return result;
   }
 });
