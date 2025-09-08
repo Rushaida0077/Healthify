@@ -12,6 +12,7 @@ export default function GenerateAIRecipe() {
     const [input,setInput] = useState();
     const [loading, setLoading] = useState(false);
     const [recipeOption, setRecipeOption] = useState([]);
+
     const GenerateRecipeOptions = async () => {
   setLoading(true);
   try {
@@ -65,7 +66,7 @@ export default function GenerateAIRecipe() {
         loading={loading}
         />
      </View>
-     <RecipeOptionList  recipeOption={recipeOption}/>
+     {recipeOption?.length >0 &&<RecipeOptionList  recipeOption={recipeOption}/>}
     </View>
   );
 }

@@ -1,14 +1,18 @@
-import { Text, View } from 'react-native';
-import { FlatList } from 'react-native-web';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { FlatList, Text, View } from 'react-native';
+import Colors from '../shared/Colors';
 
-export default function RecipeSteps(recipeDetail) {
+export default function RecipeSteps({recipeDetail}) {
      const steps = recipeDetail?.jsonData?.steps;
   return (
     <View style={{
         marginTop:15,
+        marginBottom:20,
     }}>
-      <Text>RecipeSteps</Text>
+     <Text style={{ 
+      fontSize: 20, 
+      fontWeight: "bold", 
+      marginBottom: 10 }}>
+      Recipe Steps</Text>
     <FlatList
       data={steps}
       renderItem={({item,index})=>(
@@ -19,8 +23,8 @@ export default function RecipeSteps(recipeDetail) {
           flexDirection:"row",
             gap:10,
             alignItems:"center",
-            borderWidth:0.3,
-            corderRadius:15,
+            borderWidth:0.5,
+            borderRadius:15,
             borderColor:Colors.GRAY,
           }}>
         <Text style={{
@@ -32,7 +36,7 @@ export default function RecipeSteps(recipeDetail) {
             color:Colors.WHITE,
         }}>{index +1}</Text>
         <Text style={{
-            fontSize:18,
+            fontSize:16,
             flex:1,
             flexShrink:1,
         }}>{item}</Text>

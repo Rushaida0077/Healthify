@@ -1,6 +1,5 @@
+import axios from 'axios';
 import OpenAI from 'openai';
-
-
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
@@ -26,39 +25,22 @@ export const GenerateAIRecipes = async (PROMPT) => {
     response_format: "json_object",
   });
 };
+const BASE_URL='https://aigurulab.tech';
+export const GenerateRecipeImage=async(PROMPT)=>await axios.post(BASE_URL+'/api/generate-image',
+        {
+            width: 1024,
+            height: 1024,
+            input: PROMPT,
+            model: 'sdxl',//'flux'
+            aspectRatio:"1:1"//Applicable to Flux model only
+        },
+        {
+            headers: {
+                'x-api-key': process.env.EXPO_PUBLIC_AIRGURU_LAB_API_KEY, // Your API Key
+                'Content-Type': 'application/json', // Content Type
+            },
+        })
 
 
-; // put your Eden AI key in .env
 
-import axios from "axios";
-
-/**
- * Generate an image from a prompt using Craiyon (free, no API key needed)
- * @param {string} prompt - Text prompt describing the image
- * @returns {string} - URL of the generated image (Base64)
- */
-export async function GenerateRecipeImage(prompt) {
-  if (!prompt) return ""; // fallback for empty prompt
-
-  try {
-    const response = await axios.post("https://backend.craiyon.com/generate", {
-      prompt: prompt,
-    });
-
-    if (response.data && response.data.images && response.data.images.length > 0) {
-      // Use the first generated image
-      const base64Image = response.data.images[0];
-      const imageUrl = `data:image/png;base64,${base64Image}`;
-      console.log("Generated Image URL:", imageUrl);
-      return imageUrl;
-    } else {
-      console.error("No images returned from Craiyon");
-      return "";
-    }
-
-  } catch (e) {
-    console.error("Error generating image:", e);
-    return ""; // fallback
-  }
-}
 

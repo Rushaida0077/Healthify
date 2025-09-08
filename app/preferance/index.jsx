@@ -11,55 +11,52 @@ import { api } from './../../convex/_generated/api';
 import { CalculateCaloriesAI } from './../../services/AiModel';
 import Colors from './../../shared/Colors';
 import Prompt from './../../shared/Prompt';
+
 export default function Preferance() {
-    const [weight, setWeight] = useState()
-    const [height, setHeight] = useState()
-    const [gender, setGender] = useState()
-    const [goal, setGoal] = useState()
-    const {user,setUser} = useContext(UserContext)
-    const router = useRouter();
-    const UpdateUserPref=useMutation(api.User.UpdateUserPref)
-    console.log(user)
-    const OnContinue = async() => {
-        if (!user?.email) {
-    console.log("Error", "User not loaded yet. Please wait.");
-    return;
-  }
-        if (!weight || !height || !gender){
-            Alert.alert(' Fill All Fields', 'Enter all fields to continue');
-            return;
-        }
-     
-          const data = {
-  email: user.email,
-  height: Number(height), // ✅ now matches v.float64()
-  weight: Number(weight),
-  gender: gender,
-  goal: goal
-};
-        //Calculate Calories using AI
-        const PROMPT =JSON.stringify(data) + Prompt.CALORIES_PROMPT
-        console.log(PROMPT);
-        const AIResult = await CalculateCaloriesAI(PROMPT);
-        console.log(AIResult.choices[0].message.content)
-        const AIResp=AIResult.choices[0].message.content;
-        const JSONContent=JSON.parse(AIResp.replace('```json','').replace('```','')) 
+  const [weight, setWeight] = useState();
+  const [height, setHeight] = useState();
+  const [gender, setGender] = useState();
+  const [goal, setGoal] = useState();
+  const { user, setUser } = useContext(UserContext);
+  const router = useRouter();
+  const UpdateUserPref = useMutation(api.User.UpdateUserPref);
 
-       console.log(JSONContent)
-        console.log(data)
-       const result=await UpdateUserPref({
-          ...data,
-          ...JSONContent
-    })
-
-        setUser(prev=>({
-           ...prev,
-            ...data
-        }))
-
-        router.replace('/(tabs)/Home') 
-    
+  const OnContinue = async () => {
+    if (!user?.email) {
+      console.log("Error", "User not loaded yet. Please wait.");
+      return;
     }
+
+    if (!weight || !height || !gender || !goal) {
+      Alert.alert("Fill All Fields", "Enter all fields to continue");
+      return;
+    }
+
+    try {
+  const data = { email: user.email, height: Number(height), weight: Number(weight), gender, goal };
+  const PROMPT = JSON.stringify(data) + Prompt.CALORIES_PROMPT;
+  const AIResult = await CalculateCaloriesAI(PROMPT);
+
+  const AIResp = AIResult.choices[0].message.content;
+
+  // safer JSON parse
+  const jsonMatch = AIResp.match(/\{[\s\S]*\}/);
+  if (!jsonMatch) throw new Error("AI response is not valid JSON");
+
+  const JSONContent = JSON.parse(jsonMatch[0]);
+
+  const result = await UpdateUserPref({ ...data, ...JSONContent });
+
+  setUser((prev) => ({ ...prev, ...data, ...JSONContent }));
+
+  router.replace("/(tabs)/Home");
+} catch (error) {
+  console.log("Preference update error:", error);
+  Alert.alert("Error", "Failed to save your preferences. Please try again.");
+}
+
+  };
+
 
   return (
     <View style={{

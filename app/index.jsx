@@ -1,42 +1,39 @@
 import { useConvex } from "convex/react";
 import { useRouter } from 'expo-router';
-import { onAuthStateChanged } from 'firebase/auth';
-import { useContext, useEffect } from 'react';
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../services/FirebaseConfig";
+import { UserContext } from "../context/UserContext";
 import { Dimensions, Image, Text, View } from 'react-native';
 import Button from '../components/shared/Button';
-import { UserContext } from '../context/UserContext';
 import { api } from '../convex/_generated/api';
-import { auth } from '../services/FirebaseConfig';
 import Colors from '../shared/Colors';
-
+import { useEffect, useContext } from "react";
 
 export default function Index() {
   const router = useRouter();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
   const convex = useConvex();
 
   useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (userInfo) => {
-    console.log(userInfo?.email);
+    const unsubscribe = onAuthStateChanged(auth, async (userInfo) => {
+      if (!userInfo?.email) return;
 
-    if (!userInfo?.email) {
-      // No logged-in user yet
-      return;
-    }
+      const userData = await convex.query(api.User.GetUser, {
+        email: userInfo.email,
+      });
+      console.log("Loaded user:", userData);
+      setUser(userData);
 
-    const userData = await convex.query(api.User.GetUser, {
-      email: userInfo.email
+      // ✅ Redirect based on whether user has preferences
+      if (!userData?.weight || !userData?.height || !userData?.goal) {
+        router.replace("/preferance"); // missing preferences → preference page
+      } else {
+        router.replace("/(tabs)/Home"); // preferences exist → home
+      }
     });
 
-    console.log(userData);
-    setUser(userData);
-    router.replace('/(tabs)/Home');
-  });
-
-  return () => unsubscribe();
-}, []);
-
- 
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>

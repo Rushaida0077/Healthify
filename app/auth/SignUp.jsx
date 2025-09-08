@@ -10,6 +10,7 @@ import Input from '../../components/shared/Input';
 import { UserContext } from '../../context/UserContext';
 import { api } from '../../convex/_generated/api';
 import { app } from '../../services/FirebaseConfig';
+import { useRouter } from 'expo-router';
 
 const auth = getAuth(app);
 
@@ -18,32 +19,36 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const createNewUser = useMutation(api.User.CreateNewUser);
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
+  const router = useRouter();   
 
   const onSignUp = async () => {
-     if (!name || !email || !password) {
-       Alert.alert('Missing Fields!', 'Enter all field values');
-       return;
-     }
- 
-     try {
-       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-       const user = userCredential.user;
- 
-       if (user) {
-         const result = await createNewUser({
-           name: name,
-           email: email,
-         });
-         console.log('User created in Convex:', result);
-         setUser(result);
-       }
-     } catch (error) {
-       const errorMessage = error.message;
-       console.log(errorMessage);
-       Alert.alert('Sign Up Error', errorMessage);
-     }
-   };
+    if (!name || !email || !password) {
+      Alert.alert('Missing Fields!', 'Enter all field values');
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      if (user) {
+        const result = await createNewUser({
+          name,
+          email,
+        });
+        console.log('User created in Convex:', result);
+        setUser(result);
+
+        
+        router.replace('/preferance');
+      }
+    } catch (error) {
+      console.log(error.message);
+      Alert.alert('Sign Up Error', error.message);
+    }
+  };
+
 
   return (
     <View style={{ display: 'flex', alignItems: 'center', padding: 20 }}>

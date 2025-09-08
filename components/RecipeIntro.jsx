@@ -19,14 +19,17 @@ export default function RecipeIntro({recipeDetail}) {
     display:"flex",
     flexDirection:"row",
     justifyContent:"space-between",
+    alignItems:"center",
     }}>
 
       <Text style={{
-        fontSize:25,
-        fontWeight:"bold",
-        marginTop:10,
-       
-      }}>{recipeDetail?.recipeName}</Text>
+      fontSize: 25,
+      fontWeight: "bold",
+      marginTop: 10,
+      flex: 1,              
+      flexShrink: 1,        
+    }}
+    numberOfLines={1}  >{recipeDetail?.recipeName}</Text>
       <HugeiconsIcon icon={PlusSignSquareIcon} 
         size={40}
         color={Colors.PRIMARY}
@@ -95,10 +98,11 @@ const styles = StyleSheet.create({
     flex:1
   },
   counts:{
-    frontSize:25,
-    fontWeight:"Bold",
-    color:Colors.PRIMARY,
-  }
+  fontSize: 25,
+  fontWeight: "bold",
+  color: Colors.PRIMARY,
+}
+
   
 
   

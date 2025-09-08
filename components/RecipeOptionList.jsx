@@ -31,20 +31,20 @@ export default function RecipeOptionList({ recipeOption }) {
     const parsedJSONResp = JSON.parse(extractJson);
     console.log("AI Recipe JSON:", parsedJSONResp);
 
-    const imageUrl = await GenerateRecipeImage(parsedJSONResp?.imagePrompt) || "https://example.com/default.png";
-console.log("Generated Image (Base64 URL):", imageUrl);
+    const imageUrl = await GenerateRecipeImage(parsedJSONResp?.imagePrompt) 
+console.log(imageUrl?.data?.image);
 
 // Save in database
 const saveRecipeResult = await CreateRecipes({
   jsonData: parsedJSONResp,
-  imageURL: imageUrl || "", // fallback empty string if generation fails
+  imageURL: imageUrl?.data?.image, // fallback empty string if generation fails
   recipeName: recipe?.recipeName,
   userId: user?._id
 });
     console.log("Recipe saved:", saveRecipeResult);
    router.push({
   pathname: '/recipe-detail',
- recipeId: saveRecipeResult
+  params:{ recipeId: saveRecipeResult}
 });
 
   } catch (e) {

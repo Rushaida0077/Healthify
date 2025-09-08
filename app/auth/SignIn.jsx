@@ -8,36 +8,49 @@ import Button from "../../components/shared/Button";
 import Input from "../../components/shared/Input";
 import { UserContext } from "../../context/UserContext";
 import { api } from "../../convex/_generated/api";
+import { useRouter } from "expo-router"; 
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const convex = useConvex();
-  const { user, setUser } = useContext(UserContext);
+  const { setUser } = useContext(UserContext);
+  const router = useRouter();   
 
-const onSignIn = () => {
-     if (!email || !password) {
-     Alert.alert('Missing Fields!', 'Enter All fields values');
+  const onSignIn = () => {
+    if (!email || !password) {
+      Alert.alert("Missing Fields!", "Enter all field values");
       return;
-     }
-    signInWithEmailAndPassword(auth, email, password)
-  .then(async(userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    const userData= await convex.query(api.User.GetUser, {
-      email: email
+    }
 
-    })
-    console.log(userData);
-    setUser(userData);
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorMessage);
-    Alert.alert('Incorrect Email & Password', 'Please enter the valid email and password');
-  });
+    signInWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        const user = userCredential.user;
+
+        // Fetch user from Convex
+        const userData = await convex.query(api.User.GetUser, {
+          email: email,
+        });
+
+        console.log("Fetched user:", userData);
+        setUser(userData);
+
+        // 👇 Add redirect logic here
+        if (!userData?.weight || !userData?.height || !userData?.goal) {
+          // no preferences yet
+          router.replace("/preferance");
+        } else {
+          // preferences exist → go home
+          router.replace("/(tabs)/Home");
+        }
+      })
+      .catch((error) => {
+        console.log(error.message);
+        Alert.alert(
+          "Incorrect Email & Password",
+          "Please enter a valid email and password"
+        );
+      });
   };
 
   return (
