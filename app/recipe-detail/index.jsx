@@ -39,7 +39,9 @@ export default function RecipeDetail() {
             <RecipeIngredients recipeDetail={recipeDetail} />
             <RecipeSteps recipeDetail={recipeDetail} />
 
-            <View style={{ marginTop: 15 }}>
+            <View style={{ marginTop: 15,
+            marginBottom:30
+             }}>
               <Button
                 title="Add to Meal Plan"
                 onPress={() => actionSheetRef.current?.show()}
