@@ -50,7 +50,7 @@ export default function Progress() {
         }}>Generate with AI</Text>
          <HugeiconsIcon icon={ArrowRight02Icon}  color={Colors.PRIMARY}/>
      </TouchableOpacity>
-    
+    cyjnkkkkkkkkkkkkkk
 
     </LinearGradient>
   );
