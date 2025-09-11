@@ -9,7 +9,8 @@ export default function HomeHeader() {
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        gap:10
+        gap:10,
+        marginTop:25
     }}>
       <Image
         source={require('../assets/images/user.jpg')}

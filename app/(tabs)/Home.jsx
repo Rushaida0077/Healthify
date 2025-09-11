@@ -1,11 +1,12 @@
 import { useRouter } from 'expo-router';
 import { useContext, useEffect } from 'react';
-import { View } from 'react-native';
+import { FlatList, View } from 'react-native';
 import GenerateRecipeCard from './../../components/GenerateRecipeCard';
 import HomeHeader from './../../components/HomeHeader';
 import TodayProgress from './../../components/TodayProgress';
 import TodaysMealPlan from './../../components/TodaysMealPlan';
 import { UserContext } from './../../context/UserContext';
+
 
 
 export default function Home() {
@@ -18,6 +19,10 @@ export default function Home() {
             }
     },[user])
   return (
+    <FlatList
+    data={[]}
+    renderItem={() => null}
+    ListHeaderComponent={
     <View style={{
       padding: 20,
     }}>
@@ -26,6 +31,7 @@ export default function Home() {
       <GenerateRecipeCard />
       <TodaysMealPlan />
 
-    </View>
+    </View>}
+    ></FlatList>
   )
 }

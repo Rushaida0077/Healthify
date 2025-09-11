@@ -36,7 +36,7 @@ export default function Progress() {
         backgroundColor: Colors.WHITE,
         marginTop: 10,
         borderRadius: 10,
-        width:190,
+        width: '70%',
         display: 'flex',
         flexDirection: 'row',   
         alignItems: 'center',

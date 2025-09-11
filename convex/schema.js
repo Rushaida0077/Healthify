@@ -21,5 +21,13 @@ export default defineSchema({
   userId: v.id('users'),
   recipeName: v.any(),
   imageURL: v.optional(v.string()) // now optional
-})
+}),
+  mealPlan: defineTable({
+    recipeId:v.id('recipes'),
+    date: v.string(),
+    mealType: v.string(),
+    userId: v.id('users'),
+    status: v.optional(v.boolean()), // New field with default value
+    calories: v.optional(v.number()), // New field
+  })
 });
