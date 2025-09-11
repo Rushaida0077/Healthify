@@ -1,14 +1,13 @@
 import { useConvex } from "convex/react";
-import { useContext, useState } from "react";
-import { Link } from "expo-router";
-import { auth } from '../../services/FirebaseConfig';
+import { Link, useRouter } from "expo-router";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useContext, useState } from "react";
 import { Alert, Image, Text, View } from "react-native";
 import Button from "../../components/shared/Button";
 import Input from "../../components/shared/Input";
 import { UserContext } from "../../context/UserContext";
 import { api } from "../../convex/_generated/api";
-import { useRouter } from "expo-router"; 
+import { auth } from '../../services/FirebaseConfig';
 
 export default function SignIn() {
   const [email, setEmail] = useState("");

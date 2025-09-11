@@ -26,11 +26,11 @@ export const GenerateAIRecipes = async (PROMPT) => {
   });
 };
 const BASE_URL='https://aigurulab.tech';
-export const GenerateRecipeImage=async(PROMPT)=>await axios.post(BASE_URL+'/api/generate-image',
+export const GenerateRecipeImage=async(prompt) => await axios.post(BASE_URL+'/api/generate-image',
         {
             width: 1024,
             height: 1024,
-            input: PROMPT,
+            input: prompt,
             model: 'sdxl',//'flux'
             aspectRatio:"1:1"//Applicable to Flux model only
         },
@@ -39,8 +39,7 @@ export const GenerateRecipeImage=async(PROMPT)=>await axios.post(BASE_URL+'/api/
                 'x-api-key': process.env.EXPO_PUBLIC_AIRGURU_LAB_API_KEY, // Your API Key
                 'Content-Type': 'application/json', // Content Type
             },
-        })
-
+        });
 
 
 

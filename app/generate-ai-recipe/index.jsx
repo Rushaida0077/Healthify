@@ -45,6 +45,7 @@ export default function GenerateAIRecipe() {
         height: '100%',
         }}>
       <Text style={{
+        marginTop:50,
         fontSize: 30,
         fontWeight: 'bold',
       }}>AI Recipe Generator</Text>

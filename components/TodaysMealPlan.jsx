@@ -4,26 +4,30 @@ import { useConvex } from 'convex/react';
 import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
 import { FlatList, Text, View } from 'react-native';
+import { RefreshDataContext } from '../context/RefreshDataContext';
 import { UserContext } from '../context/UserContext';
 import { api } from '../convex/_generated/api';
 import Colors from "../shared/Colors";
-import MealPlanCard  from './MealPlanCard';
+import MealPlanCard from './MealPlanCard';
 import Button from './shared/Button'; // Assuming you have a Button component
 
-export default function TodaysMealPlan() {
+export default function TodaysMealPlan({selectedDate}) {
   const [mealPlan, setMealPlan] = useState([]);
   const convex = useConvex();
   const { user } = useContext(UserContext);
+  const {refreshData,setRefreshData}=useContext(RefreshDataContext);
 
   useEffect(() => {
-    if (user) {
-      GetTodaysMealPlan();
-    }
-  }, [user]);
+  if (!user) return;
+  (async () => {
+    await GetTodaysMealPlan();
+  })();
+}, [user,refreshData,selectedDate]);
 
   const GetTodaysMealPlan = async () => {
-    const result = await convex.query(api.mealPlan.GetTodaysMealPlan, {
-      date: moment().format("DD/MM/YYYY"), // must match DB
+    console.log("-",selectedDate)
+    const result = await convex.query(api.MealPlan.GetTodaysMealPlan, {
+      date:selectedDate?? moment().format("DD/MM/YYYY"), // must match DB
       userId: user?._id,
     });
     console.log("Today's meal plan:", result);
@@ -32,9 +36,9 @@ export default function TodaysMealPlan() {
 
   return (
     <View style={{ margin: 15 }}>
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+     {!selectedDate&& <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
         Today's Meal Plan
-      </Text>
+      </Text>}
 
       {mealPlan.length === 0 ? (
         <View style={{ display: 'flex', alignItems: 'center', padding: 20 }}>

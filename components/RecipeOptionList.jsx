@@ -39,7 +39,7 @@ const saveRecipeResult = await CreateRecipes({
   jsonData: parsedJSONResp,
   imageURL: imageUrl?.data?.image, // fallback empty string if generation fails
   recipeName: recipe?.recipeName,
-  userId: user?._id
+  userId:  user._id
 });
     console.log("Recipe saved:", saveRecipeResult);
    router.push({

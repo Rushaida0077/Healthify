@@ -1,6 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
-import { query } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 
 export const CreateRecipes = mutation({
     
@@ -29,6 +28,12 @@ export const GetRecipeById = query({
     handler:async(ctx,args)=>{
         const{id}=args;
         const result=await ctx.db.get(id);
+        return result;
+    }
+})
+export const GetAllRecipes = query({
+    handler:async(ctx)=>{
+        const result=await ctx.db.query("recipes").collect();
         return result;
     }
 })
